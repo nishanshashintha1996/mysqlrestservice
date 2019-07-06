@@ -13,8 +13,11 @@ public class MainController {
     private static int mobileStatus = 1;
     private static int emailStatus = 1;
     private static String success = "";
+    private static boolean status;
     //java -jar mysql-rest-service-1.0-SNAPSHOT.jar
 
+    @Autowired
+    private CustomerCartRepository customerCartRepository;
     @Autowired
     private CartRepository cartRepository;
     @Autowired
@@ -56,6 +59,16 @@ public class MainController {
         return cartRepository.findByCustomerId(id);
     }
 
+    @GetMapping(path="/findByCustomerIdAndEmail")
+    public @ResponseBody List<UserDetails> getCartDetailsByIdAndEmail(@RequestParam int id,@RequestParam String email) {
+        return userRepository.findByUserIdOrEmail(id,email);
+    }
+
+    @GetMapping(path="/setCartItemDelete")
+    public @ResponseBody List<CartDetails> deleteCartItem(@RequestParam int customerId, @RequestParam int cartId) {
+        return cartRepository.deleteByCartId(cartId);
+    }
+
     public static String name;
     @GetMapping(path="/findByUserId")
     public @ResponseBody String getUserById(@RequestParam int id) {
@@ -66,16 +79,24 @@ public class MainController {
         return name;
     }
 
+    @GetMapping(path="/addToCustomerCart")
+    public @ResponseBody String addToCustomerCart(@RequestParam String nic,@RequestParam String address,@RequestParam String city) {
+        CustomerCartDetails customerCartDetails = new CustomerCartDetails();
+        customerCartDetails.setAddress(address);
+        customerCartDetails.setCity(city);
+        customerCartDetails.setNationalIC(nic);
+        customerCartRepository.save(customerCartDetails);
+        return "Checkout confirmed!";
+    }
+
     @GetMapping(path="/addToCart")
-    public @ResponseBody String addToCart(@RequestParam int customerId,@RequestParam String itemName,@RequestParam Double lat,@RequestParam Double lon,@RequestParam int itemQuantity,@RequestParam Double itemTotal) {
-        System.out.println("CustomerId = "+customerId+"Item Name ="+itemName+"Lat ="+lat+"Lon ="+lon+"Item Quantity ="+itemQuantity+"Item total ="+itemTotal);
+    public @ResponseBody String addToCart(@RequestParam int customerId,@RequestParam int itemId,@RequestParam int itemQuantity,@RequestParam String itemLocation) {
+        //System.out.println("CustomerId = "+customerId+"Item Name ="+itemName+"Lat ="+lat+"Lon ="+lon+"Item Quantity ="+itemQuantity+"Item total ="+itemTotal);
         CartDetails cartDetails = new CartDetails();
+        cartDetails.setItemLocation(itemLocation);
         cartDetails.setCustomerId(customerId);
-        cartDetails.setItemName(itemName);
-        cartDetails.setLocationLatitude(lat);
-        cartDetails.setLocationLongitude(lon);
+        cartDetails.setItemId(itemId);
         cartDetails.setItemQuantity(itemQuantity);
-        cartDetails.setItemTotal(itemTotal);
         cartDetails.setItemStatus("Active");
         cartRepository.save(cartDetails);
         return "Successfully added to cart!";

@@ -11,12 +11,18 @@ public class CartDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int cartId;
     private int customerId;
-    private String itemName;
-    private Double locationLatitude;
-    private Double locationLongitude;
+    private int itemId;
     private int itemQuantity;
-    private Double itemTotal;
     private String itemStatus;
+    private String itemLocation;
+
+    public String getItemLocation() {
+        return itemLocation;
+    }
+
+    public void setItemLocation(String itemLocation) {
+        this.itemLocation = itemLocation;
+    }
 
     public int getCartId() {
         return cartId;
@@ -34,28 +40,12 @@ public class CartDetails {
         this.customerId = customerId;
     }
 
-    public String getItemName() {
-        return itemName;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public Double getLocationLatitude() {
-        return locationLatitude;
-    }
-
-    public void setLocationLatitude(Double locationLatitude) {
-        this.locationLatitude = locationLatitude;
-    }
-
-    public Double getLocationLongitude() {
-        return locationLongitude;
-    }
-
-    public void setLocationLongitude(Double locationLongitude) {
-        this.locationLongitude = locationLongitude;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public int getItemQuantity() {
@@ -64,14 +54,6 @@ public class CartDetails {
 
     public void setItemQuantity(int itemQuantity) {
         this.itemQuantity = itemQuantity;
-    }
-
-    public Double getItemTotal() {
-        return itemTotal;
-    }
-
-    public void setItemTotal(Double itemTotal) {
-        this.itemTotal = itemTotal;
     }
 
     public String getItemStatus() {

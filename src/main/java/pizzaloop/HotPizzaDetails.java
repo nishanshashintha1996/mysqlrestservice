@@ -16,15 +16,6 @@ public class HotPizzaDetails {
     private String image;
     private String status;
 
-    public HotPizzaDetails(Integer hotPizzaId, String title, String shortdesc, Double rating, Double price, String image, String status) {
-        this.hotPizzaId = hotPizzaId;
-        this.title = title;
-        this.shortdesc = shortdesc;
-        this.rating = rating;
-        this.price = price;
-        this.image = image;
-        this.status = status;
-    }
 
     public Integer getHotPizzaId() {
         return hotPizzaId;
